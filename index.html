@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuLab Inc. — AI Products &amp; Custom AI Systems</title>
+  <meta name="description" content="NeuLab Inc. builds AI-powered software for everyday people and businesses across ASEAN. Consumer SaaS products and custom AI systems." />
+  <meta property="og:title" content="NeuLab Inc. — AI Products & Custom AI Systems" />
+  <meta property="og:description" content="We build AI products people actually use. Consumer SaaS · Custom AI Systems for Southeast Asian businesses." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://neulab.xyz" />
+  <meta property="og:image" content="https://neulab.xyz/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#07090D',
+            surface: '#0F1117',
+            gold: '#C5A45E',
+            textprimary: '#F0F4F8',
+            textsecondary: '#94A3B8',
+            positive: '#10B981',
+            negative: '#EF4444',
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'serif'],
+            body: ['Outfit', 'sans-serif'],
+            mono: ['"IBM Plex Mono"', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #07090D;
+      color: #F0F4F8;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .pulse-dot {
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .gold-border {
+      border: 1px solid rgba(197, 164, 94, 0.2);
+    }
+
+    .gold-border:hover {
+      border-color: rgba(197, 164, 94, 0.5);
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(197, 164, 94, 0.08);
+    }
+
+    input, textarea, select {
+      background-color: #0F1117;
+      border: 1px solid rgba(197, 164, 94, 0.2);
+      color: #F0F4F8;
+      outline: none;
+    }
+
+    input:focus, textarea:focus {
+      border-color: rgba(197, 164, 94, 0.6);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #94A3B8;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07090D;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(197, 164, 94, 0.3);
+      border-radius: 3px;
+    }
+
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #C5A45E;
+      transition: width 0.2s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .hero-glow {
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(197, 164, 94, 0.06) 0%, transparent 70%);
+    }
+
+    .section-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(197, 164, 94, 0.2), transparent);
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+  var useState = React.useState;
+  var useEffect = React.useEffect;
+  var useRef = React.useRef;
+
+  var PRODUCTS = [
+    {
+      id: 'neural-stocks',
+      name: 'Neural Stock Intelligence™',
+      url: 'https://stock.neulab.xyz',
+      tagline: 'AI-powered equity research for retail investors',
+      description: 'Deep stock analysis combining technical indicators, fundamental data, candlestick patterns, and AI reasoning — for US and Indonesian markets.',
+      features: ['AI verdict with reasoning', 'IDX Bandarmology', 'Real-time Telegram alerts'],
+      cta: 'Analyse a stock',
+      testimonials: [
+        { text: "I've tried TradingView, Stockbit, and half a dozen screeners. Neural Stocks is the first tool that actually explains why — not just what. The bandarmology section alone is worth it for IDX traders.", author: 'Rizky A.', location: 'Jakarta retail investor' },
+        { text: "Ran the BBCA analysis before earnings. The confidence score was 81%, flagged strong insider accumulation, and the thesis held up. I'm a convert.", author: 'Marcus T.', location: 'Singapore' },
+        { text: "The AI doesn't just give you a verdict, it shows every indicator it used. For someone learning to invest, that's a real education.", author: 'Siti N.', location: 'Surabaya' },
+      ],
+    },
+    {
+      id: 'kidstocks',
+      name: 'KidStocks',
+      url: 'https://kidstocks.net',
+      tagline: 'Stock market literacy for ages 8–18',
+      description: 'A gamified investing education platform where kids earn StockCoins, analyze real companies, and build investment habits — supervised by parents.',
+      features: ['Age-appropriate AI explanations', 'Parent dashboard', 'StockDNA personality quiz'],
+      cta: 'Start learning',
+      testimonials: [
+        { text: "My 12-year-old now asks me to explain P/E ratios at dinner. KidStocks made investing approachable in a way no school lesson ever did.", author: 'Amanda L.', location: 'Singapore parent' },
+        { text: "We use it as a family activity on weekends. The StockDNA quiz got my kids comparing investor personalities — they're hooked.", author: 'David K.', location: 'Kuala Lumpur' },
+        { text: "Genuinely impressed that the AI explanations are calibrated for kids — no jargon, real analogies. My son understood 'market cap' in 5 minutes.", author: 'Priya M.', location: 'Jakarta' },
+      ],
+    },
+    {
+      id: 'racketfit',
+      name: 'RacketFit',
+      url: 'https://racketfit.uk',
+      tagline: 'Science-backed racket equipment advisor',
+      description: 'AI-powered recommendations for tennis, badminton, and table tennis equipment — matching player style, skill level, and budget to the right gear.',
+      features: ['Covers tennis · badminton · table tennis', 'Beginner to pro', 'Instant recommendations'],
+      cta: 'Find your racket',
+      testimonials: [
+        { text: "Spent 3 months reading forum threads about which badminton racket to buy. RacketFit gave me a better answer in 90 seconds with actual reasoning.", author: 'James W.', location: 'London' },
+        { text: "Recommended the exact racket my coach had been suggesting for months. The AI matched my playing style perfectly.", author: 'Nurul H.', location: 'Kuala Lumpur' },
+        { text: "I run a small sports shop. I send customers to RacketFit when I can't get to them — it's like having a knowledgeable assistant on call.", author: 'Tom R.', location: 'Manchester' },
+      ],
+    },
+    {
+      id: 'wandr',
+      name: 'Wandr',
+      url: 'https://wandr.neulab.xyz',
+      tagline: 'AI travel planner built for Southeast Asia',
+      description: 'Generates personalized travel itineraries for ASEAN destinations with WhatsApp export, local activity recommendations, and affiliate partner integrations.',
+      features: ['EN + Bahasa Indonesia', 'WhatsApp & PDF export', 'Local experiences integration'],
+      cta: 'Plan a trip',
+      testimonials: [
+        { text: "Planned my Bali trip in 10 minutes. The itinerary was actually realistic — it knew how long things take and didn't overstuff the day.", author: 'Clara B.', location: 'Singapore' },
+        { text: "Most travel apps give you tourist traps. Wandr found local warung recommendations and a cooking class I never would have found on TripAdvisor.", author: 'Ahmad S.', location: 'Jakarta' },
+        { text: "The WhatsApp export is genius. Sent the full itinerary to my group chat and we were all aligned in minutes.", author: 'Mei L.', location: 'Kuala Lumpur' },
+      ],
+    },
+    {
+      id: 'applyedge',
+      name: 'ApplyEdge',
+      url: 'https://applydge.work',
+      tagline: 'AI career tools for ASEAN job seekers',
+      description: 'ATS scoring, resume curation, cover letter generation, and The Signal — a 1-page networking narrative — all tailored for the Southeast Asian job market.',
+      features: ['ATS score with keyword gap analysis', 'Before/after resume curation', 'Multilingual (EN/ID/ZH/AR/ES)'],
+      cta: 'Score your resume',
+      testimonials: [
+        { text: "My application rate went from 2% to 18% after running my resume through ApplyEdge. The ATS score told me exactly what was missing.", author: 'Kevin T.', location: 'Singapore fresh grad' },
+        { text: "The Signal feature is brilliant — a 1-page narrative I can hand to anyone at a networking event. Finally something that replaces the boring resume elevator pitch.", author: 'Sari W.', location: 'Jakarta' },
+        { text: "Used it for a regional role with bilingual requirements. The multilingual cover letter was better than what I would have written myself in either language.", author: 'Lin M.', location: 'Kuala Lumpur' },
+      ],
+    },
+    {
+      id: 'idxpaperbot',
+      name: 'IDX Paper Bot',
+      url: 'https://t.me/idxpapertradingbot',
+      tagline: 'Practice IDX trading — zero real money at risk',
+      description: 'A Telegram bot that lets you paper trade Indonesian Stock Exchange (IDX) tickers with a virtual Rp 10,000,000 starting balance. Track positions, check live prices, and build conviction before going live.',
+      features: ['Real IDX ticker prices via RapidAPI', 'Virtual portfolio with P&L tracking', 'Market hours detection · Bahasa Indonesia'],
+      cta: 'Open in Telegram →',
+      testimonials: [
+        { text: "Finally a way to test my IDX strategies without burning real money. The Telegram interface makes it easy to check positions anytime.", author: 'Budi S.', location: 'Jakarta' },
+        { text: "Great for learning how the IDX market moves. I practiced for two months before investing real money — confidence was completely different.", author: 'Rina P.', location: 'Surabaya' },
+        { text: "Love that it tracks market hours automatically so I know when orders will actually execute.", author: 'Dimas K.', location: 'Bandung' },
+      ],
+    },
+    {
+      id: 'duitpintar',
+      name: 'Duitpintar',
+      url: 'https://duitpintar.web.id',
+      tagline: 'Smart personal finance for Indonesia',
+      description: 'AI-powered personal finance app built for Indonesian users — track spending, plan budgets, and get intelligent insights tailored to local financial products and habits.',
+      features: ['Expense tracking & categorisation', 'AI-driven budget recommendations', 'Built for Indonesian financial context'],
+      cta: 'Manage your money →',
+      testimonials: [
+        { text: "Duitpintar actually understands how Indonesians spend money. The category breakdowns make so much more sense than generic finance apps.", author: 'Ayu M.', location: 'Jakarta' },
+        { text: "The budget suggestions are surprisingly accurate. It picked up on my monthly GoFood habit before I even noticed myself.", author: 'Fajar R.', location: 'Yogyakarta' },
+        { text: "Simple, clean, and in Bahasa. Finally a finance app I actually stick with.", author: 'Nisa H.', location: 'Medan' },
+      ],
+    },
+    {
+      id: 'nutriscan',
+      name: 'NutriScan',
+      url: 'https://nutriscan.web.id',
+      tagline: 'The First AI Nutrition Platform Built for Indonesian Health',
+      description: 'Personalised AI nutrition platform for Indonesian food culture. Snap a photo of your meal for instant analysis, integrate blood lab results (HbA1c, LDL, Uric Acid), and access 97+ local foods from the TKPI Kemenkes RI database.',
+      features: ['AI Photo Scan of Indonesian dishes', 'Blood Lab Integration (HbA1c · LDL · Uric Acid)', '97+ local foods · TKPI Kemenkes RI · Free to try'],
+      cta: 'Scan your food →',
+      testimonials: [
+        { text: "NutriScan recognised rendang, gado-gado, and nasi padang instantly. No other nutrition app knows Indonesian food this well.", author: 'Dewi A.', location: 'Padang' },
+        { text: "I uploaded my blood lab results and it gave me a personalised meal plan in minutes. My doctor was impressed with how actionable the insights were.", author: 'Hendra T.', location: 'Jakarta' },
+        { text: "PWA means no install needed — I just use it in the browser on my phone. Works perfectly for logging meals on the go.", author: 'Sinta W.', location: 'Bali' },
+      ],
+    },
+  ];
+
+  var SERVICES = [
+    {
+      icon: '🎙️',
+      title: 'AI Voice Agents',
+      lines: ['24/7 phone & WhatsApp', 'booking, FAQ, triage', 'No staff overhead'],
+    },
+    {
+      icon: '⚙️',
+      title: 'Workflow Automation',
+      lines: ['Document processing', 'approval flows', 'data extraction'],
+    },
+    {
+      icon: '🧠',
+      title: 'Custom LLM Integration',
+      lines: ['Connect your data to AI', 'CRM, ERP, your own', 'internal systems'],
+    },
+  ];
+
+  var DIFFERENTIATORS = [
+    { title: 'We eat our own cooking', body: 'Every technique we recommend for clients, we\'ve already deployed in our own live products. No theoretical solutions.' },
+    { title: 'ASEAN-first', body: 'Built for Indonesian, Malaysian, Singaporean, and regional markets. We understand local languages, regulations, and user behavior.' },
+    { title: 'Lean and fast', body: 'Small team, direct access to the builder. No account managers, no handoffs, no BS.' },
+    { title: 'Transparent pricing', body: 'Fixed-scope engagements with clear deliverables. No retainer traps.' },
+  ];
+
+  function NeuLabLogo() {
+    return React.createElement('div', { className: 'flex items-center gap-2' },
+      React.createElement('div', {
+        className: 'w-8 h-8 rounded flex items-center justify-center text-bg font-display font-bold text-sm',
+        style: { backgroundColor: '#C5A45E' }
+      }, 'N'),
+      React.createElement('span', { className: 'font-display font-semibold text-textprimary tracking-wide text-sm' }, 'NEULAB INC.')
+    );
+  }
+
+  function PulseDot() {
+    return React.createElement('span', { className: 'flex items-center gap-1.5' },
+      React.createElement('span', {
+        className: 'pulse-dot w-2 h-2 rounded-full',
+        style: { backgroundColor: '#10B981' }
+      }),
+      React.createElement('span', { className: 'text-xs font-mono text-positive uppercase tracking-widest' }, 'Live')
+    );
+  }
+
+  function ProductCard(props) {
+    var product = props.product;
+    var expanded = useState(false);
+    var isOpen = expanded[0];
+    var setOpen = expanded[1];
+
+    return React.createElement('div', {
+      className: 'card-hover gold-border rounded-xl p-6 flex flex-col gap-4',
+      style: { backgroundColor: '#0F1117' }
+    },
+      React.createElement('div', { className: 'flex items-start justify-between gap-4' },
+        React.createElement('div', null,
+          React.createElement('h3', { className: 'font-display text-xl font-semibold text-textprimary' }, product.name),
+          React.createElement('p', { className: 'text-gold text-sm font-mono mt-1' }, product.tagline)
+        ),
+        React.createElement(PulseDot)
+      ),
+      React.createElement('p', { className: 'text-textsecondary text-sm leading-relaxed' }, product.description),
+      React.createElement('ul', { className: 'flex flex-col gap-1.5' },
+        product.features.map(function(f, i) {
+          return React.createElement('li', { key: i, className: 'flex items-center gap-2 text-sm text-textsecondary' },
+            React.createElement('span', { className: 'text-gold' }, '•'),
+            f
+          );
+        })
+      ),
+      React.createElement('button', {
+        onClick: function() { setOpen(!isOpen); },
+        className: 'flex items-center gap-1 text-xs text-textsecondary hover:text-gold transition-colors mt-1 w-fit',
+      },
+        React.createElement('span', null, isOpen ? 'Hide testimonials' : 'See what users say'),
+        React.createElement('span', { style: { transform: isOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform 0.2s' } }, ' ⌃')
+      ),
+      isOpen && React.createElement('div', { className: 'flex flex-col gap-3 mt-1' },
+        product.testimonials.map(function(t, i) {
+          return React.createElement('blockquote', {
+            key: i,
+            className: 'rounded-lg p-3 text-xs leading-relaxed text-textsecondary italic',
+            style: { backgroundColor: 'rgba(197,164,94,0.04)', borderLeft: '2px solid rgba(197,164,94,0.3)' }
+          },
+            React.createElement('p', null, '“', t.text, '”'),
+            React.createElement('footer', { className: 'mt-1.5 not-italic text-gold font-mono' },
+              '— ', t.author, ', ', t.location
+            )
+          );
+        }),
+        React.createElement('p', { className: 'text-xs text-textsecondary opacity-50 italic' }, '* Illustrative testimonials')
+      ),
+      React.createElement('a', {
+        href: product.url,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        className: 'mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-gold hover:text-textprimary transition-colors',
+      },
+        product.cta, ' →'
+      )
+    );
+  }
+
+  function Nav() {
+    var scrolled = useState(false);
+    var isScrolled = scrolled[0];
+    var setScrolled = scrolled[1];
+
+    useEffect(function() {
+      function onScroll() { setScrolled(window.scrollY > 40); }
+      window.addEventListener('scroll', onScroll);
+      return function() { window.removeEventListener('scroll', onScroll); };
+    }, []);
+
+    return React.createElement('nav', {
+      className: 'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+      style: {
+        backgroundColor: isScrolled ? 'rgba(7,9,13,0.95)' : 'transparent',
+        backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+        borderBottom: isScrolled ? '1px solid rgba(197,164,94,0.1)' : 'none',
+      }
+    },
+      React.createElement('div', { className: 'max-w-6xl mx-auto px-6 py-4 flex items-center justify-between' },
+        React.createElement(NeuLabLogo),
+        React.createElement('div', { className: 'hidden md:flex items-center gap-8' },
+          ['products', 'agency', 'why-us', 'contact'].map(function(id) {
+            var labels = { products: 'Products', agency: 'Agency', 'why-us': 'Why Us', contact: 'Contact' };
+            return React.createElement('a', {
+              key: id,
+              href: '#' + id,
+              className: 'nav-link text-sm text-textsecondary hover:text-textprimary transition-colors'
+            }, labels[id]);
+          })
+        ),
+        React.createElement('a', {
+          href: '#contact',
+          className: 'text-sm font-medium px-4 py-2 rounded-lg transition-colors',
+          style: { backgroundColor: 'rgba(197,164,94,0.1)', color: '#C5A45E', border: '1px solid rgba(197,164,94,0.3)' },
+          onMouseEnter: function(e) { e.currentTarget.style.backgroundColor = 'rgba(197,164,94,0.2)'; },
+          onMouseLeave: function(e) { e.currentTarget.style.backgroundColor = 'rgba(197,164,94,0.1)'; },
+        }, 'Work with us →')
+      )
+    );
+  }
+
+  function Hero() {
+    return React.createElement('section', {
+      className: 'hero-glow min-h-screen flex flex-col justify-center pt-24 pb-20 px-6'
+    },
+      React.createElement('div', { className: 'max-w-6xl mx-auto w-full' },
+        React.createElement('div', { className: 'max-w-3xl' },
+          React.createElement('div', { className: 'flex items-center gap-2 mb-8' },
+            React.createElement('span', { className: 'font-mono text-xs text-textsecondary uppercase tracking-widest' }, 'Singapore · Est. 2024')
+          ),
+          React.createElement('h1', {
+            className: 'font-display text-5xl md:text-7xl font-bold text-textprimary leading-tight mb-6',
+            style: { letterSpacing: '-0.02em' }
+          },
+            'We build AI products',
+            React.createElement('br'),
+            React.createElement('span', { style: { color: '#C5A45E' } }, 'people actually use.')
+          ),
+          React.createElement('p', { className: 'text-textsecondary text-lg mb-4 max-w-xl leading-relaxed' },
+            'NeuLab builds AI-powered software for everyday people and businesses across ASEAN. Our products are live, revenue-generating, and used daily.'
+          ),
+          React.createElement('p', { className: 'font-mono text-sm text-gold mb-10' },
+            'Consumer SaaS · Custom AI Systems for Southeast Asian businesses'
+          ),
+          React.createElement('div', { className: 'flex flex-col sm:flex-row gap-4' },
+            React.createElement('a', {
+              href: '#products',
+              className: 'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium text-bg transition-colors',
+              style: { backgroundColor: '#C5A45E' },
+              onMouseEnter: function(e) { e.currentTarget.style.backgroundColor = '#D4B574'; },
+              onMouseLeave: function(e) { e.currentTarget.style.backgroundColor = '#C5A45E'; },
+            }, 'See our products →'),
+            React.createElement('a', {
+              href: '#contact',
+              className: 'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium text-textprimary transition-colors gold-border',
+              onMouseEnter: function(e) { e.currentTarget.style.backgroundColor = 'rgba(197,164,94,0.08)'; },
+              onMouseLeave: function(e) { e.currentTarget.style.backgroundColor = 'transparent'; },
+            }, 'Work with us →')
+          )
+        )
+      )
+    );
+  }
+
+  function WhatWeDo() {
+    return React.createElement('section', { className: 'py-24 px-6', id: 'agency' },
+      React.createElement('div', { className: 'max-w-6xl mx-auto' },
+        React.createElement('div', { className: 'grid md:grid-cols-2 gap-px rounded-xl overflow-hidden', style: { backgroundColor: 'rgba(197,164,94,0.15)' } },
+          React.createElement('div', { className: 'p-10 flex flex-col gap-6', style: { backgroundColor: '#0F1117' } },
+            React.createElement('div', null,
+              React.createElement('p', { className: 'font-mono text-xs text-gold uppercase tracking-widest mb-3' }, 'Product Studio'),
+              React.createElement('h2', { className: 'font-display text-3xl font-semibold text-textprimary mb-4' }, 'We build and operate our own SaaS products.'),
+              React.createElement('p', { className: 'text-textsecondary leading-relaxed' }, 'Eight live products across investing, education, health, finance, sports, travel, and career tools. Revenue-generating. Actively maintained. Revenue-sharing and equity models available for the right partners.')
+            ),
+            React.createElement('a', { href: '#products', className: 'text-gold hover:text-textprimary transition-colors font-medium text-sm mt-auto' }, 'See products ↓')
+          ),
+          React.createElement('div', { className: 'p-10 flex flex-col gap-6', style: { backgroundColor: '#0F1117' } },
+            React.createElement('div', null,
+              React.createElement('p', { className: 'font-mono text-xs text-gold uppercase tracking-widest mb-3' }, 'AI Agency'),
+              React.createElement('h2', { className: 'font-display text-3xl font-semibold text-textprimary mb-4' }, 'We build custom AI systems for your business.'),
+              React.createElement('p', { className: 'text-textsecondary leading-relaxed' }, 'Voice agents, workflow automation, custom LLM integrations. Designed for your specific processes, your team, and your customers — not generic chatbots.')
+            ),
+            React.createElement('div', { className: 'flex flex-wrap gap-2 mt-2' },
+              ['Voice agents', 'Workflow automation', 'Custom LLM integrations'].map(function(tag) {
+                return React.createElement('span', { key: tag, className: 'font-mono text-xs px-3 py-1 rounded-full', style: { backgroundColor: 'rgba(197,164,94,0.08)', color: '#C5A45E', border: '1px solid rgba(197,164,94,0.2)' } }, tag);
+              })
+            ),
+            React.createElement('a', { href: '#contact', className: 'text-gold hover:text-textprimary transition-colors font-medium text-sm mt-auto' }, 'Get in touch →')
+          )
+        )
+      )
+    );
+  }
+
+  function Products() {
+    return React.createElement('section', { className: 'py-24 px-6', id: 'products' },
+      React.createElement('div', { className: 'max-w-6xl mx-auto' },
+        React.createElement('div', { className: 'mb-12' },
+          React.createElement('h2', { className: 'font-display text-4xl font-bold text-textprimary mb-3' }, 'Products we\'ve shipped.'),
+          React.createElement('p', { className: 'text-textsecondary text-lg' }, 'Built, deployed, and actively maintained. These aren\'t demos.')
+        ),
+        React.createElement('div', { className: 'grid md:grid-cols-2 gap-6' },
+          PRODUCTS.map(function(p) {
+            return React.createElement(ProductCard, { key: p.id, product: p });
+          })
+        )
+      )
+    );
+  }
+
+  function Agency() {
+    return React.createElement('section', { className: 'py-24 px-6' },
+      React.createElement('div', { className: 'max-w-6xl mx-auto' },
+        React.createElement('div', { className: 'mb-12' },
+          React.createElement('h2', { className: 'font-display text-4xl font-bold text-textprimary mb-3' }, 'Custom AI systems for your business.'),
+          React.createElement('p', { className: 'text-textsecondary text-lg max-w-2xl' }, 'We build end-to-end AI workflows — not off-the-shelf chatbots. Every system is designed for your specific processes, your team, and your customers.')
+        ),
+        React.createElement('div', { className: 'grid md:grid-cols-3 gap-6 mb-12' },
+          SERVICES.map(function(s) {
+            return React.createElement('div', {
+              key: s.title,
+              className: 'card-hover gold-border rounded-xl p-6',
+              style: { backgroundColor: '#0F1117' }
+            },
+              React.createElement('div', { className: 'text-2xl mb-4' }, s.icon),
+              React.createElement('h3', { className: 'font-display text-xl font-semibold text-textprimary mb-3' }, s.title),
+              React.createElement('div', { className: 'flex flex-col gap-1' },
+                s.lines.map(function(line, i) {
+                  return React.createElement('p', { key: i, className: 'text-textsecondary text-sm' }, line);
+                })
+              )
+            );
+          })
+        ),
+        React.createElement('div', {
+          className: 'rounded-xl p-8',
+          style: { backgroundColor: '#0F1117', border: '1px solid rgba(197,164,94,0.15)' }
+        },
+          React.createElement('div', { className: 'flex items-start gap-4' },
+            React.createElement('div', {
+              className: 'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-lg',
+              style: { backgroundColor: 'rgba(197,164,94,0.1)' }
+            }, '🎯'),
+            React.createElement('div', null,
+              React.createElement('p', { className: 'font-mono text-xs text-gold uppercase tracking-widest mb-2' }, 'Reference Project'),
+              React.createElement('p', { className: 'text-textprimary leading-relaxed mb-3' },
+                'We built an AI voice booking agent for ',
+                React.createElement('strong', { className: 'text-gold' }, 'Dong Lin Reflexology'),
+                ' in Singapore — handling WhatsApp inquiries, bookings, and cancellations 24/7. This is now a template we deploy for any appointment-based business in Southeast Asia.'
+              ),
+              React.createElement('div', { className: 'flex flex-wrap gap-2' },
+                ['Beauty salons', 'Clinics', 'F&B', 'Padel/Sports courts', 'Professional services', 'Retail'].map(function(ind) {
+                  return React.createElement('span', { key: ind, className: 'font-mono text-xs px-2.5 py-1 rounded', style: { backgroundColor: 'rgba(255,255,255,0.04)', color: '#94A3B8' } }, ind);
+                })
+              )
+            )
+          )
+        )
+      )
+    );
+  }
+
+  function WhyNeuLab() {
+    return React.createElement('section', { className: 'py-24 px-6', id: 'why-us' },
+      React.createElement('div', { className: 'max-w-6xl mx-auto' },
+        React.createElement('h2', { className: 'font-display text-4xl font-bold text-textprimary mb-12' }, 'Why work with us.'),
+        React.createElement('div', { className: 'grid md:grid-cols-2 gap-6' },
+          DIFFERENTIATORS.map(function(d, i) {
+            return React.createElement('div', {
+              key: i,
+              className: 'rounded-xl p-6',
+              style: { backgroundColor: '#0F1117', border: '1px solid rgba(197,164,94,0.12)' }
+            },
+              React.createElement('div', { className: 'flex items-center gap-3 mb-3' },
+                React.createElement('span', { className: 'font-mono text-xs text-gold' }, '0' + (i + 1)),
+                React.createElement('h3', { className: 'font-display text-xl font-semibold text-textprimary' }, d.title)
+              ),
+              React.createElement('p', { className: 'text-textsecondary leading-relaxed' }, d.body)
+            );
+          })
+        )
+      )
+    );
+  }
+
+  function Contact() {
+    return React.createElement('section', { className: 'py-24 px-6', id: 'contact' },
+      React.createElement('div', { className: 'max-w-6xl mx-auto' },
+        React.createElement('div', { className: 'max-w-2xl mx-auto text-center mb-12' },
+          React.createElement('h2', { className: 'font-display text-4xl font-bold text-textprimary mb-4' }, "Let's build something."),
+          React.createElement('p', { className: 'text-textsecondary text-lg' }, 'Have a business problem AI could solve? Tell us what you\'re working on.')
+        ),
+        React.createElement('div', {
+          className: 'max-w-2xl mx-auto rounded-xl p-8',
+          style: { backgroundColor: '#0F1117', border: '1px solid rgba(197,164,94,0.2)' }
+        },
+          React.createElement('form', {
+            action: 'https://formspree.io/f/xzdqkopn',
+            method: 'POST',
+            className: 'flex flex-col gap-4'
+          },
+            React.createElement('div', { className: 'grid sm:grid-cols-2 gap-4' },
+              React.createElement('div', { className: 'flex flex-col gap-1.5' },
+                React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Name'),
+                React.createElement('input', {
+                  type: 'text',
+                  name: 'name',
+                  required: true,
+                  placeholder: 'Your name',
+                  className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
+                })
+              ),
+              React.createElement('div', { className: 'flex flex-col gap-1.5' },
+                React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Email'),
+                React.createElement('input', {
+                  type: 'email',
+                  name: 'email',
+                  required: true,
+                  placeholder: 'you@company.com',
+                  className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
+                })
+              )
+            ),
+            React.createElement('div', { className: 'flex flex-col gap-1.5' },
+              React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Company'),
+              React.createElement('input', {
+                type: 'text',
+                name: 'company',
+                placeholder: 'Your company (optional)',
+                className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
+              })
+            ),
+            React.createElement('div', { className: 'flex flex-col gap-1.5' },
+              React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'What you need'),
+              React.createElement('textarea', {
+                name: 'message',
+                required: true,
+                rows: 4,
+                placeholder: 'Describe your problem or what you\'re trying to build…',
+                className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors resize-none'
+              })
+            ),
+            React.createElement('button', {
+              type: 'submit',
+              className: 'w-full py-3 rounded-lg font-medium text-bg transition-colors mt-2',
+              style: { backgroundColor: '#C5A45E' },
+              onMouseEnter: function(e) { e.currentTarget.style.backgroundColor = '#D4B574'; },
+              onMouseLeave: function(e) { e.currentTarget.style.backgroundColor = '#C5A45E'; },
+            }, 'Send message →')
+          ),
+          React.createElement('p', { className: 'text-center text-xs text-textsecondary mt-6' },
+            'Or email directly: ',
+            React.createElement('a', { href: 'mailto:ai.neulab.inc@gmail.com', className: 'text-gold hover:underline' }, 'ai.neulab.inc@gmail.com')
+          )
+        )
+      )
+    );
+  }
+
+  function Footer() {
+    return React.createElement('footer', {
+      className: 'py-16 px-6 mt-8',
+      style: { borderTop: '1px solid rgba(197,164,94,0.1)' }
+    },
+      React.createElement('div', { className: 'max-w-6xl mx-auto' },
+        React.createElement('div', { className: 'grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12' },
+          React.createElement('div', { className: 'md:col-span-1' },
+            React.createElement(NeuLabLogo),
+            React.createElement('p', { className: 'text-xs text-textsecondary mt-3 leading-relaxed' }, 'Built in Singapore.\nDeployed for ASEAN.'),
+            React.createElement('p', { className: 'text-xs text-textsecondary mt-1' }, '© 2026 NeuLab Inc.')
+          ),
+          React.createElement('div', null,
+            React.createElement('p', { className: 'font-mono text-xs text-gold uppercase tracking-widest mb-4' }, 'Products'),
+            React.createElement('div', { className: 'flex flex-col gap-2' },
+              [
+                ['Neural Stocks', 'https://stock.neulab.xyz'],
+                ['KidStocks', 'https://kidstocks.net'],
+                ['RacketFit', 'https://racketfit.uk'],
+                ['Wandr', 'https://wandr.neulab.xyz'],
+                ['ApplyEdge', 'https://applydge.work'],
+                ['IDX Paper Bot', 'https://t.me/idxpapertradingbot'],
+                ['Duitpintar', 'https://duitpintar.web.id'],
+                ['NutriScan', 'https://nutriscan.web.id'],
+              ].map(function(item) {
+                return React.createElement('a', {
+                  key: item[0],
+                  href: item[1],
+                  target: '_blank',
+                  rel: 'noopener noreferrer',
+                  className: 'text-sm text-textsecondary hover:text-gold transition-colors'
+                }, item[0]);
+              })
+            )
+          ),
+          React.createElement('div', null,
+            React.createElement('p', { className: 'font-mono text-xs text-gold uppercase tracking-widest mb-4' }, 'Agency'),
+            React.createElement('div', { className: 'flex flex-col gap-2' },
+              ['Voice Agents', 'Workflow Automation', 'Custom AI'].map(function(s) {
+                return React.createElement('a', {
+                  key: s,
+                  href: '#agency',
+                  className: 'text-sm text-textsecondary hover:text-gold transition-colors'
+                }, s);
+              })
+            )
+          ),
+          React.createElement('div', null,
+            React.createElement('p', { className: 'font-mono text-xs text-gold uppercase tracking-widest mb-4' }, 'Connect'),
+            React.createElement('div', { className: 'flex flex-col gap-2' },
+              React.createElement('a', { href: 'mailto:ai.neulab.inc@gmail.com', className: 'text-sm text-textsecondary hover:text-gold transition-colors' }, 'ai.neulab.inc@gmail.com'),
+              React.createElement('a', {
+                href: 'https://www.tiktok.com/@neuralstockintelligence',
+                target: '_blank',
+                rel: 'noopener noreferrer',
+                className: 'text-sm text-textsecondary hover:text-gold transition-colors'
+              }, 'TikTok @neuralstockintelligence')
+            )
+          )
+        ),
+        React.createElement('hr', { className: 'section-divider mb-6' }),
+        React.createElement('p', { className: 'text-xs text-textsecondary text-center opacity-50' },
+          'Singapore · 2026'
+        )
+      )
+    );
+  }
+
+  function App() {
+    useEffect(function() {
+      var observer = new IntersectionObserver(
+        function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      document.querySelectorAll('.fade-up').forEach(function(el) {
+        observer.observe(el);
+      });
+
+      return function() { observer.disconnect(); };
+    }, []);
+
+    return React.createElement('div', null,
+      React.createElement(Nav),
+      React.createElement(Hero),
+      React.createElement('hr', { className: 'section-divider' }),
+      React.createElement(WhatWeDo),
+      React.createElement('hr', { className: 'section-divider' }),
+      React.createElement(Products),
+      React.createElement('hr', { className: 'section-divider' }),
+      React.createElement(Agency),
+      React.createElement('hr', { className: 'section-divider' }),
+      React.createElement(WhyNeuLab),
+      React.createElement('hr', { className: 'section-divider' }),
+      React.createElement(Contact),
+      React.createElement(Footer)
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+</body>
+</html>
