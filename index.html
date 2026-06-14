@@ -296,7 +296,7 @@
 
   var DIFFERENTIATORS = [
     { title: 'We eat our own cooking', body: 'Every technique we recommend for clients, we\'ve already deployed in our own live products. No theoretical solutions.' },
-    { title: 'ASEAN-first', body: 'Built for Indonesian, Malaysian, Singaporean, and regional markets. We understand local languages, regulations, and user behavior.' },
+    { title: 'Global reach, ASEAN roots', body: 'Built for Indonesian, Malaysian, Singaporean, and global markets. We understand local languages, regulations, and user behavior — and we scale beyond.' },
     { title: 'Lean and fast', body: 'Small team, direct access to the builder. No account managers, no handoffs, no BS.' },
     { title: 'Transparent pricing', body: 'Fixed-scope engagements with clear deliverables. No retainer traps.' },
   ];
@@ -587,11 +587,15 @@
   }
 
   function Contact() {
+    var isCompany = React.useState(false);
+    var senderType = isCompany[0];
+    var setSenderType = isCompany[1];
+
     return React.createElement('section', { className: 'py-24 px-6', id: 'contact' },
       React.createElement('div', { className: 'max-w-6xl mx-auto' },
         React.createElement('div', { className: 'max-w-2xl mx-auto text-center mb-12' },
           React.createElement('h2', { className: 'font-display text-4xl font-bold text-textprimary mb-4' }, "Let's build something."),
-          React.createElement('p', { className: 'text-textsecondary text-lg' }, 'Have a business problem AI could solve? Tell us what you\'re working on.')
+          React.createElement('p', { className: 'text-textsecondary text-lg' }, 'Have a problem AI could solve? Tell us what you\'re working on.')
         ),
         React.createElement('div', {
           className: 'max-w-2xl mx-auto rounded-xl p-8',
@@ -619,17 +623,69 @@
                   type: 'email',
                   name: 'email',
                   required: true,
-                  placeholder: 'you@company.com',
+                  placeholder: 'your@email.com',
                   className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
                 })
               )
             ),
             React.createElement('div', { className: 'flex flex-col gap-1.5' },
-              React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Company'),
+              React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'I am a...'),
+              React.createElement('div', { className: 'grid grid-cols-2 gap-2' },
+                React.createElement('button', {
+                  type: 'button',
+                  onClick: function() { setSenderType(false); },
+                  className: 'py-2.5 rounded-lg text-sm font-medium transition-all',
+                  style: !senderType
+                    ? { backgroundColor: '#C5A45E', color: '#07090D' }
+                    : { backgroundColor: '#07090D', color: '#A09880', border: '1px solid #2A2E38' }
+                }, 'Individual'),
+                React.createElement('button', {
+                  type: 'button',
+                  onClick: function() { setSenderType(true); },
+                  className: 'py-2.5 rounded-lg text-sm font-medium transition-all',
+                  style: senderType
+                    ? { backgroundColor: '#C5A45E', color: '#07090D' }
+                    : { backgroundColor: '#07090D', color: '#A09880', border: '1px solid #2A2E38' }
+                }, 'Company')
+              )
+            ),
+            senderType && React.createElement('div', { className: 'flex flex-col gap-4' },
+              React.createElement('div', { className: 'flex flex-col gap-1.5' },
+                React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Company Name'),
+                React.createElement('input', {
+                  type: 'text',
+                  name: 'company',
+                  placeholder: 'Your company name',
+                  className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
+                })
+              ),
+              React.createElement('div', { className: 'grid sm:grid-cols-2 gap-4' },
+                React.createElement('div', { className: 'flex flex-col gap-1.5' },
+                  React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Contact Person'),
+                  React.createElement('input', {
+                    type: 'text',
+                    name: 'contact_person',
+                    placeholder: 'Full name',
+                    className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
+                  })
+                ),
+                React.createElement('div', { className: 'flex flex-col gap-1.5' },
+                  React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Phone (optional)'),
+                  React.createElement('input', {
+                    type: 'tel',
+                    name: 'phone',
+                    placeholder: '+65 or +62...',
+                    className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
+                  })
+                )
+              )
+            ),
+            !senderType && React.createElement('div', { className: 'flex flex-col gap-1.5' },
+              React.createElement('label', { className: 'text-xs font-mono text-textsecondary uppercase tracking-wider' }, 'Phone (optional)'),
               React.createElement('input', {
-                type: 'text',
-                name: 'company',
-                placeholder: 'Your company (optional)',
+                type: 'tel',
+                name: 'phone',
+                placeholder: '+65 or +62...',
                 className: 'w-full rounded-lg px-4 py-3 text-sm transition-colors'
               })
             ),
@@ -650,10 +706,6 @@
               onMouseEnter: function(e) { e.currentTarget.style.backgroundColor = '#D4B574'; },
               onMouseLeave: function(e) { e.currentTarget.style.backgroundColor = '#C5A45E'; },
             }, 'Send message →')
-          ),
-          React.createElement('p', { className: 'text-center text-xs text-textsecondary mt-6' },
-            'Or email directly: ',
-            React.createElement('a', { href: 'mailto:ai.neulab.inc@gmail.com', className: 'text-gold hover:underline' }, 'ai.neulab.inc@gmail.com')
           )
         )
       )
@@ -669,7 +721,7 @@
         React.createElement('div', { className: 'grid sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12' },
           React.createElement('div', { className: 'md:col-span-1' },
             React.createElement(NeuLabLogo),
-            React.createElement('p', { className: 'text-xs text-textsecondary mt-3 leading-relaxed' }, 'Built in Singapore.\nDeployed for ASEAN.'),
+            React.createElement('p', { className: 'text-xs text-textsecondary mt-3 leading-relaxed' }, 'Built in Singapore. Deployed globally.'),
             React.createElement('p', { className: 'text-xs text-textsecondary mt-1' }, '© 2026 NeuLab Inc.')
           ),
           React.createElement('div', null,
