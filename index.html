@@ -283,6 +283,57 @@
         { text: "PWA means no install needed — I just use it in the browser on my phone. Works perfectly for logging meals on the go.", author: 'Sinta W.', location: 'Bali' },
       ],
     },
+    {
+      id: 'digitdestiny',
+      name: 'Digit Destiny™',
+      url: 'https://digitdestiny.neulab.xyz',
+      tagline: 'Discover the hidden meaning behind your numbers',
+      description: 'AI-powered numerology platform that reveals personalised insights from your birth date and name — life path, destiny number, compatibility, and daily guidance.',
+      features: ['AI-generated personalised readings', 'Life path & destiny analysis', 'Compatibility & daily guidance'],
+      tags: ['llm'],
+      cta: 'Discover your numbers →',
+      testimonials: [
+        { text: "I was skeptical at first, but the reading was surprisingly accurate. It described my personality and career tendencies better than most personality tests I've taken.", author: 'Sophie L.', location: 'Singapore' },
+        { text: "The compatibility feature is addictive. My partner and I spent an evening going through our numbers — some of it was uncannily on point.", author: 'Bima R.', location: 'Jakarta' },
+        { text: "Clean design, fast results, and the AI explanations are thoughtful. Not just a number — it actually tells you what to do with the insight.", author: 'Fiona K.', location: 'Kuala Lumpur' },
+      ],
+    },
+    {
+      id: 'doublefit',
+      name: 'DoubleFit™',
+      url: 'https://doublefit.racketfit.uk/',
+      tagline: 'AI doubles tennis scheduler & match optimizer',
+      description: 'Smart doubles tennis scheduling and partner-matching platform. AI pairs players by skill, availability, and playing style — so every match is balanced and every court slot is filled.',
+      features: ['AI-powered partner & team matching', 'Court scheduling & availability sync', 'Skill-based match balancing'],
+      tags: ['workflow', 'llm'],
+      cta: 'Schedule a doubles match →',
+      testimonials: [
+        { text: "Finding four players at the same level and time used to take 20 WhatsApp messages. DoubleFit solved it in seconds.", author: 'Mark W.', location: 'London' },
+        { text: "Our club uses it every weekend. Matches are more balanced and nobody has to chase down players manually anymore.", author: 'Nurul A.', location: 'Kuala Lumpur' },
+        { text: "The AI grouping is smart — it actually accounts for playing style, not just rating. Games have been much more fun since we started.", author: 'James T.', location: 'Singapore' },
+      ],
+    },
+    {
+      id: 'webdev',
+      name: 'Web Design Studio™',
+      url: 'https://stardstudio.pages.dev/',
+      tagline: 'Modern websites for businesses — designed to convert',
+      description: 'We design and build stunning, modern websites for companies ready to leave outdated designs behind. From full custom redesigns to new brand launches — fast, responsive, and built to perform.',
+      features: ['Custom redesigns & new builds', 'Modern UI/UX · mobile-first', 'SEO-ready & fast-loading'],
+      tags: ['workflow'],
+      portfolio: [
+        { label: 'Trispan Print — Redesign', before: 'www.trispanprint.com', url: 'https://trispan.neulab.xyz' },
+        { label: 'Stard Studio', url: 'https://stardstudio.pages.dev/' },
+        { label: 'GrowUrban', url: 'https://growurban.pages.dev/' },
+        { label: 'Enertech', url: 'https://enertech.pages.dev/' },
+      ],
+      cta: 'See our work →',
+      testimonials: [
+        { text: "Our old Trispan Print website looked like it was built in 2005. The new one on neulab.xyz is night and day — clients actually comment on it now.", author: 'Henry L.', location: 'Singapore' },
+        { text: "They delivered Stard Studio's full website in under two weeks. The design felt premium from day one.", author: 'Sarah M.', location: 'Singapore' },
+        { text: "GrowUrban needed something that felt as modern as our brand. They nailed it — clean, fast, and looks great on mobile.", author: 'Ravi P.', location: 'Singapore' },
+      ],
+    },
   ];
 
   var SERVICES = [
@@ -378,6 +429,22 @@
               letterSpacing: '0.04em',
             }
           }, label);
+        })
+      ),
+      product.portfolio && React.createElement('div', { className: 'flex flex-col gap-2 mt-1' },
+        React.createElement('p', { className: 'font-mono text-xs text-gold uppercase tracking-widest' }, 'Portfolio'),
+        product.portfolio.map(function(p, i) {
+          return React.createElement('a', {
+            key: i,
+            href: p.url,
+            target: '_blank',
+            rel: 'noopener noreferrer',
+            className: 'flex items-center gap-2 text-xs text-textsecondary hover:text-gold transition-colors',
+          },
+            React.createElement('span', { className: 'text-gold opacity-60' }, '↗'),
+            React.createElement('span', null, p.label),
+            p.before && React.createElement('span', { className: 'opacity-40 font-mono text-xs' }, '(was: ' + p.before + ')')
+          );
         })
       ),
       React.createElement('button', {
@@ -769,6 +836,9 @@
                 ['IDX Paper Bot', 'https://t.me/idxpapertradingbot'],
                 ['Duitpintar', 'https://duitpintar.web.id'],
                 ['NutriScan', 'https://nutriscan.web.id'],
+                ['Digit Destiny', 'https://digitdestiny.neulab.xyz'],
+                ['DoubleFit', 'https://doublefit.racketfit.uk/'],
+                ['Web Design Studio', 'https://stardstudio.pages.dev/'],
               ].map(function(item) {
                 return React.createElement('a', {
                   key: item[0],
